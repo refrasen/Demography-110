@@ -1,6 +1,6 @@
 2+2 == 2^2 == sqrt(16)
-
-#A= diagm([1,2,3,4,5],-1)
+2+2 == 3
+A= diagm([1,2,3,4,5],-1)
 A[1,:] = [0,1,2,3,4,5]
 
 A
@@ -35,7 +35,7 @@ A^3*(A*k)
 
 #values from table 4.2 in Demography 110 book
 nLx = [4770, 4726, 4712, 4698, 4681, 4662, 4637, 4604, 4561, 4503, 4421]
-nfx = [0, 0, 0, .0811, .2384, .1969, .1033, .0313, .0046, .0009]
+nfx = [0, 0, 0, .0811, .2384, .1969, .1033, .0313, .0046, .0009,0]
 nBx = [0, 0, 0, 381, 1116, 918, 479, 144, 21, 4]
 l0 = 1000;
 n = 5;
@@ -43,9 +43,12 @@ ffab = .4877;
 (nLx[1]/(2*l0))*ffab
 nLx[2]/nLx[1]
 function LeslieMatrix(nLx, nfx, n, l0, ffab)
-    N = length(nLx)-1;
-    A = zeros((N, N));
-    nfx = [nfx; [0]]
+    #this function generates a leslie matrix
+    #n is the width of the age intervals
+    #nLx is a vector containing the PYL needed to find subdiagonal
+    #nfx is the vector containing ASFR needed to find first row
+    N = length(nLx)-1; #this is the size of the matrix
+    A = zeros((N, N)); #initializies a zero matrix
     for i in 2:(N)
         A[i, i-1] = nLx[i]/nLx[i-1];
     end
@@ -71,17 +74,9 @@ K5 = B*K
 B^2*K
 B*K5
 B^3*K
-B^9*K
+B^8*K
 
-#test to show i accesses entries in nLx
-for i in nLx
-    i += 1;
-    b[l] = i;
-    l+=1;
-end
-b
-nLx
-C = [];
+
 function ASMR(D, K)
     #D is vector of deaths in age intervals
     #K is vector of Population in age intervals
